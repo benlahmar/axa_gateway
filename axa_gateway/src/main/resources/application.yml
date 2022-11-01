@@ -1,0 +1,15 @@
+server:
+  port: 9999
+
+spring:  cloud:    gateway:      routes:      - id: catelogue
+        uri: lb://CATALOGUE-SERVICE
+        predicates:        - Path= /categories/**, /produits/**
+      - id: users
+        uri: http://localhost:8087
+        predicates:
+        - Path= /users/**
+        - Query= name, axa
+        - Header=X-Request-Id, \d+
+        filters:          - AddResponseHeader=cle, value001
+management:  endpoints:    web:      exposure:        include: "*"    
+                  
